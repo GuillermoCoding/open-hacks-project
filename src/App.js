@@ -17,6 +17,13 @@ import Login from "./components/Login";
 import Registration from "./components/Registration";
 import Blog from "./components/Blog";
 
+import { Route, BrowserRouter as Router, Switch, Redirect } from 'react-router-dom';
+
+import Chat from './components/Chat';
+import Signup from './components/Signup1';
+import Login from './components/Login1';
+
+import { auth } from './services/firebaseConnection';
 const theme = createMuiTheme({
   palette: {
     primary: orange,
@@ -25,6 +32,67 @@ const theme = createMuiTheme({
     danger: "orange",
   },
 });
+/**
+class App extends React.Component {
+  constructor(props){
+    super(props);
+    this.state = {
+      authenticated: false,
+      loading : false,
+    }
+    this.handleLogout = this.handleLogout.bind(this);
+  }
+
+  handleLogout() {
+    this.setState({authenticated: false})
+    auth().signOut();
+  }
+  
+  componentDidMount() {
+    auth().onAuthStateChanged((user) => {
+      if (user) {
+        this.setState({
+          authenticated: true,
+          loading: false,
+        })
+      } else {
+        this.setState({
+          authenticated: false,
+          loading: false,
+        })
+      }
+    })
+  }
+  render() {
+  return (
+    <div className="App">
+      <ThemeProvider theme={theme}>
+        <NavBar auth={this.state.authenticated} handleLogout={this.handleLogout}/>
+        {this.state.loading === true ? <h2>Loading...</h2> : (
+        <Router>
+          <Switch>
+            <Route exact path="/" component={Landing}></Route>
+             <PrivateRoute
+              path="/chat"
+              authenticated={this.state.authenticated}
+              component={Chat}
+            ></PrivateRoute>
+            <PublicRoute
+              path="/signup"
+              authenticated={this.state.authenticated}
+              component={Signup}
+            ></PublicRoute>
+            <PublicRoute
+              path="/login"
+              authenticated={this.state.authenticated}
+              component={Login}
+            ></PublicRoute>
+          </Switch>
+        </Router>
+        )}
+      </ThemeProvider>
+    </div>
+**/
 
 function App() {
   return (
@@ -58,6 +126,39 @@ function App() {
         </Switch>
       </div>
     </Router>
+  );
+}
+}
+
+function PrivateRoute({ component: Component, authenticated, ...rest }) {
+  return (
+    <Route
+      {...rest}
+      render={(props) =>
+        authenticated === true ? (
+          <Component {...props} />
+        ) : (
+          <Redirect
+            to={{ pathname: "/login", state: { from: props.location } }}
+          />
+        )
+      }
+    />
+  );
+}
+
+function PublicRoute({ component: Component, authenticated, ...rest }) {
+  return (
+    <Route
+      {...rest}
+      render={(props) =>
+        authenticated === false ? (
+          <Component {...props} />
+        ) : (
+          <Redirect to="/chat" />
+        )
+      }
+    />
   );
 }
 
