@@ -3,7 +3,6 @@ import { makeStyles } from "@material-ui/core/styles";
 import Typography from "@material-ui/core/Typography";
 import Button from "@material-ui/core/Button";
 import { Link } from "react-router-dom";
-
 import LandingImg from "../img/undraw_Group_chat_unwm.svg";
 
 const useStyles = makeStyles((theme) => ({
