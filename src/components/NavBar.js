@@ -37,18 +37,12 @@ export default function ButtonAppBar(props) {
       <AppBar position="static">
         <Toolbar className={classes.toolbar}> 
           <Typography variant="h6">
-            <Link className={classes.logoLink} to="/">
               Torch
-            </Link>
-    /**
-            </Typography>
             <div>
             <Link color='inherit' href='/chat'><Button>Chat</Button></Link>
             {props.auth === true ? <Button color="inherit" onClick={props.handleLogout}>Log out</Button> : <Button color="inherit">Login</Button>}
             </div>
-            </Link>
           </Typography>
-          **/
         </Toolbar>
       </AppBar>
     </div>

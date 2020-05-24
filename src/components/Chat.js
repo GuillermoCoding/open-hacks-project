@@ -6,6 +6,7 @@ import TextField from "@material-ui/core/TextField";
 import { withStyles } from "@material-ui/core/styles";
 import { auth } from "../services/firebaseConnection";
 import { db } from "../services/firebaseConnection";
+import firebase from "../services/firebaseConnection";
 import Torch from "../img/torch.svg";
 
 const styles = {
@@ -91,6 +92,9 @@ class Chat extends Component {
   }
 
   async componentDidMount() {
+    auth().onAuthStateChanged((user) => {
+      this.setState({user});
+    })
     this.setState({ readError: null });
     try {
       db.ref("chats").on("value", (snapshot) => {
@@ -107,6 +111,7 @@ class Chat extends Component {
 
   render() {
     const { classes } = this.props;
+    if (!this.state.user) return null;
     return (
       <div>
         <div className={classes.chat}>

@@ -4,11 +4,6 @@ import {
   createMuiTheme,
   ThemeProvider,
 } from "@material-ui/core/styles";
-import {
-  BrowserRouter as Router,
-  Switch,
-  Route,
-} from "react-router-dom";
 import orange from "@material-ui/core/colors/deepOrange";
 
 import NavBar from "./components/NavBar";
@@ -20,8 +15,10 @@ import Blog from "./components/Blog";
 import { Route, BrowserRouter as Router, Switch, Redirect } from 'react-router-dom';
 
 import Chat from './components/Chat';
+/**
 import Signup from './components/Signup1';
 import Login from './components/Login1';
+ **/
 
 import { auth } from './services/firebaseConnection';
 const theme = createMuiTheme({
@@ -32,7 +29,6 @@ const theme = createMuiTheme({
     danger: "orange",
   },
 });
-/**
 class App extends React.Component {
   constructor(props){
     super(props);
@@ -65,35 +61,47 @@ class App extends React.Component {
   }
   render() {
   return (
-    <div className="App">
-      <ThemeProvider theme={theme}>
-        <NavBar auth={this.state.authenticated} handleLogout={this.handleLogout}/>
-        {this.state.loading === true ? <h2>Loading...</h2> : (
-        <Router>
-          <Switch>
-            <Route exact path="/" component={Landing}></Route>
-             <PrivateRoute
-              path="/chat"
-              authenticated={this.state.authenticated}
-              component={Chat}
-            ></PrivateRoute>
-            <PublicRoute
-              path="/signup"
-              authenticated={this.state.authenticated}
-              component={Signup}
-            ></PublicRoute>
-            <PublicRoute
-              path="/login"
-              authenticated={this.state.authenticated}
-              component={Login}
-            ></PublicRoute>
-          </Switch>
-        </Router>
-        )}
-      </ThemeProvider>
-    </div>
-**/
+    <Router>
+      <div className="App">
+        <Switch>
+          <Route path="/blog">
+            <ThemeProvider theme={theme}>
+              <NavBar auth={this.state.authenticated} handleLogout={this.handleLogout}/>
+              <Blog />
+            </ThemeProvider>
+          </Route>
+          <Route path="/chat">
+            <ThemeProvider theme={theme}>
+              <NavBar />
+              <Chat />
+            </ThemeProvider>
+          </Route>
+          <Route path="/register">
+            <ThemeProvider theme={theme}>
+              <NavBar />
+              <Registration />
+            </ThemeProvider>
+          </Route>
+          <Route path="/login">
+            <ThemeProvider theme={theme}>
+              <NavBar />
+            </ThemeProvider>
+            <Login />
+          </Route>
+          <Route path="/">
+            <ThemeProvider theme={theme}>
+              <NavBar />
+              <Landing />
+            </ThemeProvider>
+          </Route>
+        </Switch>
+      </div>
+    </Router>
+  )}
 
+}
+
+/**
 function App() {
   return (
     <Router>
@@ -129,6 +137,7 @@ function App() {
   );
 }
 }
+ **/
 
 function PrivateRoute({ component: Component, authenticated, ...rest }) {
   return (
